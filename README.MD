@@ -1,6 +1,9 @@
 ## WhatsApp API using venom-bot
 
-## Usage
+## Install
+```npm i```
+
+## Setup
 Create .env file
 
 ```PORT={{port}}```
@@ -8,6 +11,12 @@ Create .env file
 ```TOKEN={{Your API Token}}```
 
 ```WEBHOOK={{webhook1}},{{webhook2}}```
+
+
+## Deploy
+```Local: npm run local```
+
+```Production: npm run start```
 
 
 ## API Endpoints
