@@ -1,4 +1,3 @@
-
 # pull the Node.js Docker image
 FROM node:slim
 
@@ -12,6 +11,7 @@ RUN apt-get update && apt-get install gnupg wget -y && \
     sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
     apt-get update && \
     apt-get install google-chrome-stable -y --no-install-recommends && \
+    apt-get install -y python3 && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/google-chrome
@@ -30,6 +30,9 @@ COPY . .
 
 # our app is running on port 6000 within the container, so need to expose it
 EXPOSE 6000
+
+# Add volumes to persist data between host and container
+VOLUME ["/usr/src/app"]
 
 # the command that starts our app
 CMD ["node", "index.js"]

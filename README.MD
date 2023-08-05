@@ -12,6 +12,8 @@ Create .env file
 
 ```WEBHOOK={{webhook1}},{{webhook2}}```
 
+```SESSION=default```
+
 
 ## Deploy
 ```Local: npm run local```
