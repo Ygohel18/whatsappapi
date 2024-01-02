@@ -21,10 +21,20 @@ app.use(bodyParser.json({ limit: "100mb" }));
 app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 
-; (async () => {
-    fs.unlinkSync(`./tokens/${appsession}/SingletonLock`);
-    await startVenom();
+const path = `./tokens/${appsession}/SingletonLock`;
+
+(async () => {
+    try {
+        await fs.access(path);
+        await fs.unlink(path);
+        console.log(`File ${path} deleted successfully`);
+        await startVenom();
+        console.log('Venom started successfully');
+    } catch (error) {
+        //
+    }
 })();
+
 
 function sendRequest(url, data, type) {
     var data = JSON.stringify({
