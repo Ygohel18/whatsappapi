@@ -20,6 +20,9 @@ Create .env file
 
 ```Production: npm run start```
 
+## Changelog
+Latest venom-bot 5.0.21
+
 
 ## API Endpoints
 

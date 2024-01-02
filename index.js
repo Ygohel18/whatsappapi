@@ -23,18 +23,52 @@ app.use(cookieParser());
 
 const path = `./tokens/${appsession}/SingletonLock`;
 
+async function startVenom() {
+
+
+    const options = {
+        headless: 'new',
+        disableWelcome: true,
+        browserArgs: [
+            '--user-agent',
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ]
+    }
+
+    let client = await venom
+        .create({
+            session: appsession,
+            catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
+                console.log(asciiQR); // Optional to log the QR in the terminal
+                var r = {
+                    qr: base64Qr,
+                };
+                sendWebhook(r, "qrcode");
+            },
+            options
+        })
+        .then((client) => {
+            start(client);
+        })
+        .catch((erro) => {
+            console.log(erro);
+        });
+    return client;
+}
+
 (async () => {
     try {
         await fs.access(path);
         await fs.unlink(path);
         console.log(`File ${path} deleted successfully`);
+    } catch (error) {
+        console.log('Cant unlink file');
+    } finally {
         await startVenom();
         console.log('Venom started successfully');
-    } catch (error) {
-        //
     }
 })();
-
 
 function sendRequest(url, data, type) {
     var data = JSON.stringify({
@@ -91,40 +125,6 @@ const checkToken = () => {
     };
 };
 
-async function startVenom() {
-
-
-    const options = {
-        headless: 'new',
-        disableWelcome: true,
-        browserArgs: [
-            '--user-agent',
-            '--no-sandbox',
-            '--disable-setuid-sandbox'
-        ]
-    }
-
-    let client = await venom
-        .create({
-            session: appsession,
-            catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
-                console.log(asciiQR); // Optional to log the QR in the terminal
-                var r = {
-                    qr: base64Qr,
-                };
-                sendWebhook(r, "qrcode");
-            },
-            options
-        })
-        .then((client) => {
-            start(client);
-        })
-        .catch((erro) => {
-            console.log(erro);
-        });
-
-    return client;
-}
 app.post("/api/login", checkToken(), (req, res) => {
     try {
         venom
