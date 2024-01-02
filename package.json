@@ -12,7 +12,7 @@
     "node-fetch": "^3.2.10",
     "url-metadata": "^2.5.0",
     "uuid": "^8.3.2",
-    "venom-bot": "^5.0.21",
+    "venom-bot": "^5.0.13",
     "npm-check-updates": "^16.0.4"
   },
   "name": "whatsappapi",
